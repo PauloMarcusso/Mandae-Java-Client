@@ -1,8 +1,9 @@
 package com.mandae.api;
 
+import com.mandae.model.RestauranteModel;
 import com.mandae.model.RestauranteResumoModel;
+import com.mandae.model.input.RestauranteInput;
 import lombok.AllArgsConstructor;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
@@ -31,4 +32,19 @@ public class RestauranteClient {
             throw new ClientApiException(e.getMessage(), e);
         }
     }
+
+    public RestauranteModel adicionar(RestauranteInput restauranteInput) {
+        try {
+            URI resourceUri = URI.create(url + RESOURCE_PATH);
+
+            RestauranteModel restaurante = restTemplate.postForObject(resourceUri, restauranteInput,
+                    RestauranteModel.class);
+
+            return restaurante;
+        } catch (RestClientResponseException e) {
+            throw new ClientApiException(e.getMessage(), e);
+        }
+    }
+
+
 }
